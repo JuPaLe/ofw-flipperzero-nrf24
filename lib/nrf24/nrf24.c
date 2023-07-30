@@ -6,10 +6,22 @@
 #include <string.h>
 
 void nrf24_init() {
+    furi_hal_gpio_init_simple(&gpio_ext_pc3, GpioModeOutputPushPull);
+    furi_hal_gpio_write(&gpio_ext_pc3, true);
     furi_hal_spi_bus_handle_init(nrf24_HANDLE);
     furi_hal_spi_acquire(nrf24_HANDLE);
     furi_hal_gpio_init(nrf24_CE_PIN, GpioModeOutputPushPull, GpioPullUp, GpioSpeedVeryHigh);
     furi_hal_gpio_write(nrf24_CE_PIN, false);
+}
+
+void nrf24_deinit() {
+    furi_hal_spi_release(nrf24_HANDLE);
+    furi_hal_spi_bus_handle_deinit(nrf24_HANDLE);
+    furi_hal_gpio_write(nrf24_CE_PIN, false);
+    furi_hal_gpio_init(nrf24_CE_PIN, GpioModeAnalog, GpioPullNo, GpioSpeedLow);
+
+    // resetting the CS pins to floating
+    furi_hal_gpio_init_simple(&gpio_ext_pc3, GpioModeAnalog);
 }
 
 void nrf24_spi_trx(
@@ -504,10 +516,20 @@ uint8_t nrf24_find_channel(
     }
 
     if(autoinit) {
-        FURI_LOG_I("nrf24", "initializing radio for channel %d", ch);
+        FURI_LOG_D("nrf24", "initializing radio for channel %d", ch);
         nrf24_configure(handle, rate, srcmac, dstmac, maclen, ch, false, false);
         return ch;
     }
 
     return ch;
+}
+
+bool nrf24_check_connected(FuriHalSpiBusHandle* handle) {
+    uint8_t status = nrf24_status(handle);
+
+    if(status != 0x00) {
+        return true;
+    } else {
+        return false;
+    }
 }

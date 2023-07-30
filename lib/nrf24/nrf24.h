@@ -116,6 +116,11 @@ uint8_t nrf24_set_tx_mode(FuriHalSpiBusHandle* handle);
  */
 void nrf24_init();
 
+/** Must call this when we end using nrf24 device
+ * 
+ */
+void nrf24_deinit();
+
 /** Send flush rx command
  *
  * @param      handle  - pointer to FuriHalSpiHandle
@@ -355,6 +360,13 @@ void int32_to_bytes(uint32_t val, uint8_t* out, bool bigendian);
  * @return     32-bit value
  */
 uint32_t bytes_to_int32(uint8_t* bytes, bool bigendian);
+
+/** Check if the nrf24 is connected
+ * @param      handle  - pointer to FuriHalSpiHandle
+ * 
+ * @return     true if connected, otherwise false
+*/
+bool nrf24_check_connected(FuriHalSpiBusHandle* handle);
 
 #ifdef __cplusplus
 }
