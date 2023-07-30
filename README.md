@@ -11,6 +11,8 @@ cd nrfsniff
 ufbt launch
 ```
 
+Last built with the OFW version `0.87.0`.
+
 ## Warning
 This repo contains two Flipper Zero apps that utilize the NRF24 driver to sniff for NRF24 addresses and perform mousejack attacks. These apps are for **educational purposes** only. Please use this code responsibly and only use these apps on your own equipment.
 
@@ -21,3 +23,5 @@ The mousejack vulnerabilities were discovered and reported by Marc Newlin, see [
 
 Much of the driver code was inspired by [RadioHead's Arduino library](https://www.airspayce.com/mikem/arduino/RadioHead/classRH__NRF24.html).
 Much of the mousejack code was inspired by the [Jackit project](https://github.com/insecurityofthings/jackit).
+
+The up-to-date code has been synced from [RogueMaster repo](https://github.com/RogueMaster/flipperzero-firmware-wPlugins).
