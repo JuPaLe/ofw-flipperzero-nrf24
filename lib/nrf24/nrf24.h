@@ -31,12 +31,24 @@ extern "C" {
 #define REG_RF_SETUP 0x06
 #define REG_STATUS 0x07
 #define REG_RX_ADDR_P0 0x0A
+#define REG_RX_ADDR_P1 0x0B
+#define REG_RX_ADDR_P2 0x0C
+#define REG_RX_ADDR_P3 0x0D
+#define REG_RX_ADDR_P4 0x0E
+#define REG_RX_ADDR_P5 0x0F
 #define REG_RF_CH 0x05
 #define REG_TX_ADDR 0x10
+#define REG_FIFO_STATUS 0x17
 
 #define RX_PW_P0 0x11
-#define TX_DS 0x20
-#define MAX_RT 0x10
+#define RX_PW_P1 0x12
+#define RX_PW_P2 0x13
+#define RX_PW_P3 0x14
+#define RX_PW_P4 0x15
+#define RX_PW_P5 0x16
+#define RX_DR    0x40
+#define TX_DS    0x20
+#define MAX_RT   0x10
 
 #define nrf24_TIMEOUT 500
 #define nrf24_CE_PIN &gpio_ext_pb2
@@ -296,6 +308,9 @@ void nrf24_configure(
     uint8_t channel,
     bool noack,
     bool disable_aa);
+
+// Set mac address (MSB first), Return: Status
+uint8_t  nrf24_set_mac(uint8_t mac_addr, uint8_t *mac, uint8_t mlen);
 
 /** Configures the radio for "promiscuous mode" and primes it for rx
  * This is not an actual mode of the nrf24, but this function exploits a few bugs in the chip that allows it to act as if it were.

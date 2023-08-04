@@ -191,8 +191,7 @@ uint8_t nrf24_set_packetlen(FuriHalSpiBusHandle* handle, uint8_t len) {
     return status;
 }
 
-uint8_t
-    nrf24_rxpacket(FuriHalSpiBusHandle* handle, uint8_t* packet, uint8_t* packetsize, bool full) {
+uint8_t nrf24_rxpacket(FuriHalSpiBusHandle* handle, uint8_t* packet, uint8_t* packetsize, bool full) {
     uint8_t status = 0;
     uint8_t size = 0;
     uint8_t tx_pl_wid[] = {R_RX_PL_WID, 0};
@@ -202,7 +201,7 @@ uint8_t
 
     status = nrf24_status(handle);
 
-    if(status & 0x40) {
+    if(status & RX_DR) {
         if(full)
             size = nrf24_get_packetlen(handle);
         else {
@@ -212,11 +211,11 @@ uint8_t
 
         tx_cmd[0] = R_RX_PAYLOAD;
         nrf24_spi_trx(handle, tx_cmd, tmp_packet, size + 1, nrf24_TIMEOUT);
-        nrf24_write_reg(handle, REG_STATUS, 0x40); // clear bit.
+        nrf24_write_reg(handle, REG_STATUS, RX_DR); // clear bit.
         memcpy(packet, &tmp_packet[1], size);
     } else if(status == 0) {
         nrf24_flush_rx(handle);
-        nrf24_write_reg(handle, REG_STATUS, 0x40); // clear bit.
+        nrf24_write_reg(handle, REG_STATUS, RX_DR); // clear bit.
     }
 
     *packetsize = size;
@@ -478,7 +477,7 @@ bool nrf24_sniff_address(FuriHalSpiBusHandle* handle, uint8_t maclen, uint8_t* a
     //char printit[65];
     uint8_t status = 0;
     status = nrf24_rxpacket(handle, packet, &packetsize, true);
-    if(status & 0x40) {
+    if(status & RX_DR) {
         if(validate_address(packet)) {
             for(int i = 0; i < maclen; i++) address[i] = packet[maclen - 1 - i];
 
@@ -532,4 +531,10 @@ bool nrf24_check_connected(FuriHalSpiBusHandle* handle) {
     } else {
         return false;
     }
+}
+
+uint8_t nrf24_set_mac(uint8_t mac_addr, uint8_t *mac, uint8_t mlen) {
+    uint8_t addr[5];
+    for(int i = 0; i < mlen; i++) addr[i] = mac[mlen - i - 1];
+    return nrf24_write_buf_reg(nrf24_HANDLE, mac_addr, addr, mlen);
 }
