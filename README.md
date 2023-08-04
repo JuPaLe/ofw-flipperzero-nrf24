@@ -14,7 +14,7 @@ ufbt launch
 Last built with the OFW version `0.87.0`.
 
 ## Warning
-This repo contains two Flipper Zero apps that utilize the NRF24 driver to sniff for NRF24 addresses and perform mousejack attacks. These apps are for **educational purposes** only. Please use this code responsibly and only use these apps on your own equipment.
+This repo contains three Flipper Zero apps that utilize the NRF24 driver to sniff for NRF24 addresses and perform mousejack attacks. These apps are for **educational purposes** only. Please use this code responsibly and only use these apps on your own equipment.
 
 ## Acknowledgments
 The NRF24 sniffing technique was discovered and shared by Travis Goodspeed in [his blog](http://travisgoodspeed.blogspot.com/2011/02/promiscuity-is-nrf24l01s-duty.html).
@@ -25,3 +25,5 @@ Much of the driver code was inspired by [RadioHead's Arduino library](https://ww
 Much of the mousejack code was inspired by the [Jackit project](https://github.com/insecurityofthings/jackit).
 
 The up-to-date code has been synced from [RogueMaster repo](https://github.com/RogueMaster/flipperzero-firmware-wPlugins).
+
+NRF24 scan app has been ported from [vad7](https://github.com/vad7/nrf24scan). It is licensed under the GPLv3.
