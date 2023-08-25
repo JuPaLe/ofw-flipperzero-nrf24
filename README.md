@@ -11,7 +11,7 @@ cd nrfsniff
 ufbt launch
 ```
 
-Last built with the OFW version `0.87.0`.
+Last built with the OFW version `0.89.0`.
 
 ## Warning
 This repo contains three Flipper Zero apps that utilize the NRF24 driver to sniff for NRF24 addresses and perform mousejack attacks. These apps are for **educational purposes** only. Please use this code responsibly and only use these apps on your own equipment.
